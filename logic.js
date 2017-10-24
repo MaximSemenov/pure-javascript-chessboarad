@@ -1,30 +1,31 @@
 
 
-let chessBoard = document.getElementById('chessBoard');
-let counter = 0;
-let board = [],
-    mycell = {
+let chessBoard = document.getElementById('chessBoard'),
+    counter = 0,
+    myCell = {
         cell: null,
         class: null
     };
 
 
 setChessBoard(0, 8);
-board.forEach(item => item.forEach(innerItem => {
-    innerItem.addEventListener('click', www, false)
-}));
 
+chessBoard.addEventListener('click', setByClick, false);
+document.addEventListener('keydown', shiftCell, false);
 
 
 function setChessBoard(number, condition) {
 
     let tr = document.createElement('tr');
     chessBoard.appendChild(tr);
-    board.push([]);
 
+    let cellYNumber = 0;
 
     for (let i = number; i < condition; i++) {
+
         let cell = document.createElement('td');
+        cell.setAttribute('data-cell-x', cellYNumber);
+        cell.setAttribute('data-cell-y', counter);
 
         if (i % 2 === 0) {
             cell.className = 'white'
@@ -33,8 +34,9 @@ function setChessBoard(number, condition) {
         }
 
         tr.appendChild(cell);
+        cellYNumber++;
 
-        board[counter].push(cell)
+
     }
 
 
@@ -50,35 +52,83 @@ function setChessBoard(number, condition) {
 
 
 
-function www(e) {
+function setByClick(e) {
 
-    if (mycell.cell) { mycell.cell.className = mycell.class }
+    if (myCell.cell) {
+        myCell.cell.className = myCell.class
+    }
 
-    mycell.cell = e.target;
-    mycell.class = e.target.className;
-
+    myCell.cell = e.target;
+    myCell.class = e.target.className;
     e.target.className = 'blue';
 
-    document.addEventListener ('keydown', aaa, false);
+}
 
-    console.log (e.target)
-    console.log (board)
+function setByKeyBoard(element) {
+
+    if (myCell.cell) { myCell.cell.className = myCell.class }
+
+    myCell.cell = element;
+    myCell.class = element.className;
+
+    element.className = 'blue';
+
 
 }
 
+function shiftCell(e) {
 
+    let x,
+        y,
+        keyCode;
 
+    x = myCell.cell.dataset.cellX;
+    y = myCell.cell.dataset.cellY;
+    keyCode = e.keyCode;
 
-function aaa () {
+    switch (keyCode) {
 
+        case 37:
+            goLeft(x, y);
+            break;
 
+        case 38:
+            goUp(x, y);
+            break;
 
-    if (e.keyCode === 38) { mycell.cell.previousElementSibling
+        case 39:
+            goRight(x, y);
+            break;
 
-        
-      
+        case 40:
+            goDown(x, y);
+            break;
+
     }
-console.log (e.keyCode)
 
 }
+
+function goUp(x, y) {
+    var newCell = document.querySelector(`[data-cell-x='${x}'][data-cell-y='${y - 1}']`);
+    setByKeyBoard(newCell);
+}
+
+function goLeft(x, y) {
+    var newCell = document.querySelector(`[data-cell-x='${x - 1}'][data-cell-y='${y}']`);
+    setByKeyBoard(newCell);
+}
+
+function goRight(x, y) {
+    var newCell = document.querySelector(`[data-cell-x='${+x + 1}'][data-cell-y='${y}']`);
+    setByKeyBoard(newCell);
+}
+
+function goDown(x, y) {
+    var newCell = document.querySelector(`[data-cell-x='${x}'][data-cell-y='${+y + 1}']`);
+    setByKeyBoard(newCell);
+}
+
+
+
+
 

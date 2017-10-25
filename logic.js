@@ -66,6 +66,8 @@ function setByClick(e) {
 
 function setByKeyBoard(element) {
 
+
+
     if (myCell.cell) { myCell.cell.className = myCell.class }
 
     myCell.cell = element;
@@ -77,7 +79,7 @@ function setByKeyBoard(element) {
 }
 
 function shiftCell(e) {
-
+console.log (myCell.cell)
     let x,
         y,
         keyCode;
@@ -109,21 +111,36 @@ function shiftCell(e) {
 }
 
 function goUp(x, y) {
+
+    if (y == 0) {
+        return;
+    }
     var newCell = document.querySelector(`[data-cell-x='${x}'][data-cell-y='${y - 1}']`);
     setByKeyBoard(newCell);
 }
 
 function goLeft(x, y) {
+
+    if (x == 0) {
+        return;
+    }
     var newCell = document.querySelector(`[data-cell-x='${x - 1}'][data-cell-y='${y}']`);
     setByKeyBoard(newCell);
 }
 
 function goRight(x, y) {
+
+    if (x == 7) {
+        return;
+    }
     var newCell = document.querySelector(`[data-cell-x='${+x + 1}'][data-cell-y='${y}']`);
     setByKeyBoard(newCell);
 }
 
 function goDown(x, y) {
+    if (y == 7) {
+        return;
+    }
     var newCell = document.querySelector(`[data-cell-x='${x}'][data-cell-y='${+y + 1}']`);
     setByKeyBoard(newCell);
 }
